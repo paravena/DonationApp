@@ -1,19 +1,23 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components/native';
-import { Header, Search, SingleDonationItem, Tab } from '../components';
+import { Header, Search, SingleDonationItem, Tab } from '../../components';
 import {
   CategoryItem,
   DonationItem,
   horizontalScale,
   scaleFontSize,
   verticalScale,
-} from '../lib';
+} from '../../lib';
 import { useDispatch, useSelector } from 'react-redux';
-import { State } from '../redux/store';
-import { FlatList, ImageSourcePropType } from 'react-native';
-import { updateSelectedCategoryId } from '../redux/reducers';
+import { State } from '../../redux/store.ts';
+import { FlatList } from 'react-native';
+import { updateSelectedCategoryId } from '../../redux/reducers';
+import { updateSelectedDonationId } from '../../redux/reducers/donations.ts';
+import { RootStackParamsList } from '../../navigation/MainNavigation.tsx';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const Home = () => {
+type Props = { navigation: StackNavigationProp<RootStackParamsList, 'Home'> };
+const Home = ({ navigation }: Props) => {
   const user = useSelector((state: State) => state.user);
   const donations = useSelector((state: State) => state.donations);
   const categories = useSelector((state: State) => state.categories);
@@ -78,7 +82,7 @@ const Home = () => {
         </SearchBox>
         <CtaImageContainer>
           <CtaImage
-            source={require('../../assets/images/highlighted_image.png')}
+            source={require('../../../assets/images/highlighted_image.png')}
             resizeMode={'contain'}
           />
         </CtaImageContainer>
@@ -131,7 +135,10 @@ const Home = () => {
                   uri={{ uri: item.image }}
                   price={parseFloat(item.price)}
                   onPress={donationItemId => {
-                    console.log(donationItemId);
+                    dispatch(updateSelectedDonationId(donationItemId));
+                    navigation.navigate('SingleDonation', {
+                      donationId: donationItemId,
+                    });
                   }}
                 />
               </SingleDonationItemContainer>
