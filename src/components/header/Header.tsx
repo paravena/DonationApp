@@ -5,12 +5,18 @@ import { scaleFontSize } from '../../lib';
 type Props = PropsWithChildren<{
   size: number;
   color?: string;
+  numberOfLines?: number;
 }>;
 
-const Header = ({ children, size = 1, color = 'black' }: Props) => {
+const Header = ({
+  children,
+  size = 1,
+  color = 'black',
+  numberOfLines = undefined,
+}: Props) => {
   return (
     <Container>
-      <HeaderText size={size} color={color}>
+      <HeaderText size={size} color={color} numberOfLines={numberOfLines}>
         {children}
       </HeaderText>
     </Container>

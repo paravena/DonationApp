@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components/native';
-import { Header, Search, Tab } from '../components';
+import { Header, Search, SingleDonationItem, Tab } from '../components';
 import {
   CategoryItem,
+  DonationItem,
   horizontalScale,
   scaleFontSize,
   verticalScale,
 } from '../lib';
 import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../redux/store';
-import { FlatList } from 'react-native';
+import { FlatList, ImageSourcePropType } from 'react-native';
 import { updateSelectedCategoryId } from '../redux/reducers';
 
 const Home = () => {
   const user = useSelector((state: State) => state.user);
+  const donations = useSelector((state: State) => state.donations);
   const categories = useSelector((state: State) => state.categories);
   const dispatch = useDispatch();
+  const [donationItems, setDonationItems] = useState<DonationItem[]>([]);
   const [categoryPage, setCategoryPage] = useState(1);
   const [categoryList, setCategoryList] = useState<CategoryItem[]>([]);
   const [isLoadingCategories, setIsLoadingCategories] = useState(false);
@@ -29,6 +32,22 @@ const Home = () => {
     setCategoryPage(prev => prev + 1);
     setIsLoadingCategories(false);
   }, [categories.categories]);
+
+  useEffect(() => {
+    console.log('Category selected change', categories.selectedCategoryId);
+    const filteredItems = donations.items.filter(item =>
+      item.categoryIds.includes(categories.selectedCategoryId),
+    );
+    setDonationItems(filteredItems);
+  }, [categories.selectedCategoryId, donations.items]);
+
+  const selectedCategory = useMemo(
+    () =>
+      categories.categories.find(
+        c => c.categoryId === categories.selectedCategoryId,
+      ),
+    [categories],
+  );
   const pagination = (
     items: CategoryItem[],
     page: number,
@@ -101,6 +120,24 @@ const Home = () => {
             keyExtractor={item => `category-${item.categoryId}`}
           />
         </CategoriesContainer>
+        {donationItems.length > 0 && (
+          <DonationItemsContainer>
+            {donationItems.map(item => (
+              <SingleDonationItemContainer key={item.donationItemId}>
+                <SingleDonationItem
+                  donationItemId={item.donationItemId}
+                  badgeTitle={selectedCategory?.name ?? ''}
+                  title={item.name}
+                  uri={{ uri: item.image }}
+                  price={parseFloat(item.price)}
+                  onPress={donationItemId => {
+                    console.log(donationItemId);
+                  }}
+                />
+              </SingleDonationItemContainer>
+            ))}
+          </DonationItemsContainer>
+        )}
       </Content>
     </Container>
   );
@@ -161,6 +198,18 @@ const CategoryContent = styled.View`
 const CategoriesHeader = styled.View`
   margin: ${verticalScale(6)}px ${horizontalScale(24)}px ${verticalScale(16)}px
     ${horizontalScale(24)}px;
+`;
+
+const DonationItemsContainer = styled.View`
+  margin: ${verticalScale(20)}px ${horizontalScale(24)}px 0;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`;
+
+const SingleDonationItemContainer = styled.View`
+  max-width: 49%;
+  margin-bottom: ${verticalScale(23)}px;
 `;
 
 export default Home;
