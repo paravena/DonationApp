@@ -138,6 +138,7 @@ const Home = ({ navigation }: Props) => {
                     dispatch(updateSelectedDonationId(donationItemId));
                     navigation.navigate('SingleDonation', {
                       donationId: donationItemId,
+                      selectedCategory,
                     });
                   }}
                 />
