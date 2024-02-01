@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCXzlceyqsp7sLVX-SpH8nBoNEsjw-nflc</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.DonationApp</string>
+	<key>GCM_SENDER_ID</key>
+	<string>902619451538</string>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:902619451538:ios:91c9c2291c38cdae95964b</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>PROJECT_ID</key>
+	<string>donation-application-4018e</string>
+	<key>STORAGE_BUCKET</key>
+	<string>donation-application-4018e.appspot.com</string>
+</dict>
+</plist>
